@@ -1,0 +1,3 @@
+id,name,model_id/id,group_id/id,perm_read,perm_write,perm_create,perm_unlink
+acces_history_order,access_history_order,model_history_order,,1,1,1,1
+acces_master_marketplace,access_master_marketplace,model_master_marketplace,,1,1,1,1

@@ -1,0 +1,37 @@
+<odoo>
+    <record id="customer_marketplace" model="ir.ui.view">
+        <field name="name">customer.marketplace</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook/page[2]/group" position="inside">
+                <group name="marketplace" string="Marketplace" style="width: 100%" >
+                    <field name="marketplace_ids" nolabel="1" />
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="history_order_tree">
+        <field name="name">history.order.tree</field>
+        <field name="model">history.order</field>
+        <field name="arch" type="xml">
+            <tree string="Marketplace" editable="bottom">
+                <field name="marketplace_id"/>
+                <field name="order_id"/>
+                <field name="customer_name"/>
+                <field name="customer_receipt"/>
+                <field name="phone_marketplace"/>
+                <field name="phone_receipt"/>
+                <field name="email_marketplace"/>
+                <field name="address_marketplace"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="history_order_action" model="ir.actions.act_window">
+        <field name="name">Marketplace</field>
+        <field name="res_model">history.order</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+</odoo>
