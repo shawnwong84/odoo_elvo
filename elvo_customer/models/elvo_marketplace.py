@@ -10,7 +10,7 @@ class CustomerMarketplace(models.Model):
     _name = 'history.order'
     _description = 'Customer Marketplace'
 
-    marketplace_id = fields.Many2one('master.marketplace', string="Marketplace")
+    marketplace_id = fields.Many2one('master.marketplace', string="Marketplace Name")
     order_id = fields.Integer(string="Order ID")
     customer_name = fields.Char(string="Customer Name")
     customer_receipt = fields.Char(string="Customer Receipt")

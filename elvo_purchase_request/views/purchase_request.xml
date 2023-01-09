@@ -1,0 +1,21 @@
+<odoo>
+    <record model="ir.ui.view" id="elvo_purchase_request">
+        <field name="name">elvo.purchase.request</field>
+        <field name="model">purchase.requisition</field>
+        <field name="inherit_id" ref="purchase_requisition.view_purchase_requisition_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='user_id']" position="attributes">
+                <attribute name="string">Requester</attribute>
+            </xpath>
+            <xpath expr="//field[@name='user_id']" position="after">
+                <field name="preparer"/>
+            </xpath>
+            <xpath expr="//field[@name='type_id']" position="attributes">
+                <attribute name="string">Selection Type</attribute>
+            </xpath>
+            <xpath expr="//button[@name='action_cancel']" position="before">
+                <button name="to_approve" string="To Approve" type="object" class="oe_highlight"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>
