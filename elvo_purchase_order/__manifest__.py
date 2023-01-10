@@ -8,6 +8,7 @@
     'category': 'invoicing',
     'data': [
         'views/purchase_order.xml',
+        'views/elvo_product_supplier.xml',
         'security/ir.model.access.csv',
     ],
     'installable': True,

@@ -21,6 +21,23 @@ class PurchaseOrder(models.Model):
         ('note4', 'FRANCO GUDANG ALAMAT PENGIRIMAN.')
     ], string="Notes")
     reason = fields.Char(string="Reason")
+    hide_confirm_order = fields.Boolean(compute="_compute_hide_button", default=True)
+    hide_approve_manager = fields.Boolean(compute="_compute_hide_button", default=True)
+    hide_approve_finance = fields.Boolean(compute="_compute_hide_button", default=True)
+    hide_approve_bod = fields.Boolean(compute="_compute_hide_button", default=True)
+
+    def _compute_hide_button(self):
+        if self.amount_total == 0.0:
+            self.hide_confirm_order = self.hide_approve_manager = self.hide_approve_finance = self.hide_approve_bod = True
+        elif self.amount_total < 1000000:
+            self.hide_approve_manager = self.hide_approve_finance = self.hide_approve_bod = True
+            self.hide_confirm_order = False
+        elif self.amount_total > 1000000 and self.amount_total < 10000000:
+            self.hide_confirm_order = self.hide_approve_finance = self.hide_approve_bod = True
+            self.hide_approve_manager = False
+        elif self.amount_total > 10000000:
+            self.hide_approve_finance = self.hide_approve_bod = False
+            self.hide_confirm_order = self.hide_approve_manager = True
 
     def to_approve_manager(self):
         self.state = 'to_approve_manager'
@@ -42,52 +59,6 @@ class PurchaseOrder(models.Model):
                 'default_purchase_order_id': self.id,
             }
         }
-
-class CancelPoWizard(models.TransientModel):
-    _name = 'cancel.po.wizard'
-
-    purchase_order_id = fields.Many2one('purchase.order', string="Purchase Order", readonly=True)
-    reason = fields.Char(string="Reason")
-
-    def button_cancel(self):
-        return {
-            'type': 'ir.actions.act_window_close'
-        }
-
-    def approve_button(self):
-        return {
-            'name': 'Cancel PO',
-            'type': 'ir.actions.act_window',
-            'res_model': 'confirmation.to.cancel',
-            'view_mode': 'form',
-            'target': 'new',
-            'context': {
-                'default_purchase_order_id': self.purchase_order_id.id,
-                'default_reason': self.reason,
-            }
-        }
-
-
-class ConfirmationToCancel(models.TransientModel):
-    _name = 'confirmation.to.cancel'
-
-    purchase_order_id = fields.Many2one('purchase.order', string="Purchase Order")
-    reason = fields.Char(string="Reason")
-
-    def button_cancel(self):
-        return {
-            'type': 'ir.actions.act_window_close'
-        }
-
-    def approve_button(self):
-        self.purchase_order_id.state = 'cancel'
-        self.purchase_order_id.reason = self.reason
-        return {
-            'type': 'ir.actions.act_window_close'
-        }
-
-
-
 
 class PurchaseOrderLine(models.Model):
     _inherit = 'purchase.order.line'

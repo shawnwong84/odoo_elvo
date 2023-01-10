@@ -5,12 +5,33 @@
         <field name="inherit_id" ref="purchase.purchase_order_form"/>
         <field name="arch" type="xml">
             <xpath expr="//button[@name='print_quotation']" position="after">
-                <button name="to_approve_manager" string="Approve" type="object" class="oe_highlight"/>
-                <button name="to_approve_finance" string="Approve Finance" type="object" class="oe_highlight"/>
-                <button name="to_approve_bod" string="Approve BOD"
-                        attrs="{'invisible': [('state', '!=', 'to_approve_finance')]}" type="object"
+                <button name="to_approve_manager" string="Approve" type="object"
+                        attrs="{'invisible': [('hide_approve_manager', '=', True)]}"
                         class="oe_highlight"/>
+                <button name="to_approve_finance" string="Approve Finance" type="object"
+                        attrs="{'invisible': [('hide_approve_finance', '=', True)]}"
+                        class="oe_highlight"/>
+                <button name="to_approve_bod" string="Approve BOD"
+                        attrs="{'invisible': [('hide_approve_bod', '=', True)]}" type="object"
+                        class="oe_highlight"/>
+                <field name="hide_confirm_order" invisible="1"/>
+                <field name="hide_confirm_order" invisible="1"/>
+                <field name="hide_approve_finance" invisible="1"/>
+                <field name="hide_approve_bod" invisible="1"/>
+                <field name="hide_approve_manager" invisible="1"/>
             </xpath>
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="hide_confirm_order"/>
+                <field name="hide_approve_finance"/>
+                <field name="hide_approve_bod"/>
+                <field name="hide_approve_manager"/>
+            </xpath>
+<!--            <xpath expr="//button[@name='button_confirm'][2]" position="attributes">-->
+<!--                <attribute name="attrs">{'invisible': [('hide_confirm_order', '=', True)]}</attribute>-->
+<!--            </xpath>-->
+<!--            <xpath expr="//button[@name='button_confirm'][1]" position="attributes">-->
+<!--                <attribute name="attrs">{'invisible': [('hide_confirm_order', '=', True)]}</attribute>-->
+<!--            </xpath>-->
             <xpath expr="//tree/field[@name='product_uom']" position="after">
                 <field name="price_latest"/>
             </xpath>
