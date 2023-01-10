@@ -20,6 +20,7 @@ class PurchaseOrder(models.Model):
         ('note3', 'ALAMAT KIRIM BARANG SESUAI ALAMAT PENGIRIMAN DI PO.'),
         ('note4', 'FRANCO GUDANG ALAMAT PENGIRIMAN.')
     ], string="Notes")
+    tolerance = fields.Char(string="Tolerance")
     reason = fields.Char(string="Reason")
     hide_confirm_order = fields.Boolean(compute="_compute_hide_button", default=True)
     hide_approve_manager = fields.Boolean(compute="_compute_hide_button", default=True)

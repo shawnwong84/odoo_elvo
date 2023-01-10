@@ -1,0 +1,13 @@
+<odoo>
+    <record model="ir.ui.view" id="elvo_inventory_adjustment">
+        <field name="name">elvo.inventory.adjustment</field>
+        <field name="model">stock.inventory</field>
+        <field name="inherit_id" ref="stock.view_inventory_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='exhausted']" position="after">
+                <field name="pic1"/>
+                <field name="pic2"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

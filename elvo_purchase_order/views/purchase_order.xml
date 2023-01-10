@@ -20,6 +20,9 @@
                 <field name="hide_approve_bod" invisible="1"/>
                 <field name="hide_approve_manager" invisible="1"/>
             </xpath>
+            <xpath expr="//group[@name='other_info']" position="inside">
+                <field name="tolerance"/>
+            </xpath>
             <xpath expr="//field[@name='partner_id']" position="after">
                 <field name="hide_confirm_order"/>
                 <field name="hide_approve_finance"/>
