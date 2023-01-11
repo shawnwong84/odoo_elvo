@@ -4,7 +4,7 @@ from odoo import models, fields, api, _
 class PurchaseRequition(models.Model):
     _inherit = 'purchase.requisition'
 
-    preparer = fields.Char("Preparer")
+    preparer = fields.Many2one('res.users', string='Preparer')
     state = fields.Selection(selection=[
         ('draft', 'Draft'),
         ('ongoing', 'Ongoing'),

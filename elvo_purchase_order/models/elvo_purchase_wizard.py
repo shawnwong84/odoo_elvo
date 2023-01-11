@@ -40,6 +40,7 @@ class ConfirmationToCancel(models.TransientModel):
     def approve_button(self):
         self.purchase_order_id.state = 'cancel'
         self.purchase_order_id.reason = self.reason
+        self.purchase_order_id.picking_ids.action_cancel()
         return {
             'type': 'ir.actions.act_window_close'
         }

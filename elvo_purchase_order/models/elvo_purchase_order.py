@@ -1,5 +1,6 @@
 from odoo import models, fields, api
 
+
 class PurchaseOrder(models.Model):
     _inherit = 'purchase.order'
 
@@ -8,7 +9,6 @@ class PurchaseOrder(models.Model):
         ('sent', 'RFQ Sent'),
         ('to approve', 'To Approve'),
         ('to_approve_manager', 'To Approve Manager Finance'),
-        ('to_approve_finance', 'To Approve Finance'),
         ('to_approve_bod', 'To Approve BOD'),
         ('purchase', 'Purchase Order'),
         ('done', 'Locked'),
@@ -22,32 +22,35 @@ class PurchaseOrder(models.Model):
     ], string="Notes")
     tolerance = fields.Char(string="Tolerance")
     reason = fields.Char(string="Reason")
-    hide_confirm_order = fields.Boolean(compute="_compute_hide_button", default=True)
-    hide_approve_manager = fields.Boolean(compute="_compute_hide_button", default=True)
-    hide_approve_finance = fields.Boolean(compute="_compute_hide_button", default=True)
-    hide_approve_bod = fields.Boolean(compute="_compute_hide_button", default=True)
 
-    def _compute_hide_button(self):
-        if self.amount_total == 0.0:
-            self.hide_confirm_order = self.hide_approve_manager = self.hide_approve_finance = self.hide_approve_bod = True
-        elif self.amount_total < 1000000:
-            self.hide_approve_manager = self.hide_approve_finance = self.hide_approve_bod = True
-            self.hide_confirm_order = False
-        elif self.amount_total > 1000000 and self.amount_total < 10000000:
-            self.hide_confirm_order = self.hide_approve_finance = self.hide_approve_bod = True
-            self.hide_approve_manager = False
-        elif self.amount_total > 10000000:
-            self.hide_approve_finance = self.hide_approve_bod = False
-            self.hide_confirm_order = self.hide_approve_manager = True
+    # def _compute_hide_button(self):
+    #     if self.amount_total == 0.0:
+    #         self.hide_confirm_order = self.hide_approve_manager = self.hide_approve_finance = self.hide_approve_bod = True
+    #     elif self.amount_total < 1000000:
+    #         self.hide_approve_manager = self.hide_approve_finance = self.hide_approve_bod = True
+    #         self.hide_confirm_order = False
+    #     elif self.amount_total >= 1000000 and self.amount_total < 10000000:
+    #         self.hide_confirm_order = self.hide_approve_finance = self.hide_approve_bod = True
+    #         self.hide_approve_manager = False
+    #     elif self.amount_total > 10000000:
+    #         self.hide_approve_finance = self.hide_approve_bod = False
+    #         self.hide_confirm_order = self.hide_approve_manager = True
+
+    def button_confirm(self):
+        res = super(PurchaseOrder, self).button_confirm()
+        if self.amount_total < 1000000:
+            self.state = 'purchase'
+        elif self.amount_total >= 1000000:
+            self.state = 'to_approve_manager'
 
     def to_approve_manager(self):
-        self.state = 'to_approve_manager'
-
-    def to_approve_finance(self):
-        self.state = 'to_approve_finance'
+        if self.amount_total < 10000000:
+            self.state = 'purchase'
+        elif self.amount_total >= 10000000:
+            self.state = 'to_approve_bod'
 
     def to_approve_bod(self):
-        self.state = 'to_approve_bod'
+        self.state = 'purchase'
 
     def cancel_po_wizard(self):
         return {
@@ -61,6 +64,7 @@ class PurchaseOrder(models.Model):
             }
         }
 
+
 class PurchaseOrderLine(models.Model):
     _inherit = 'purchase.order.line'
 
@@ -73,3 +77,10 @@ class PurchaseOrderLine(models.Model):
                 [('product_id', '=', line.product_id.id), ('state', 'in', ['done', 'purchase'])],
                 order='write_date desc', limit=1)
             line.price_latest = get_data.price_unit
+            # self.env['product.supplierinfo'].search([('product_tmpl_id', '=', line.product_id.product_tmpl_id.id),
+            #                                          ('name', '=', line.order_id.partner_id.id)]).write(
+            #     {'price_latest': get_data.price_unit})
+#             update product.supplierinfo price_latest
+            self.env['product.supplierinfo'].search([('product_tmpl_id', '=', line.product_id.product_tmpl_id.id),
+                                                        ('name', '=', line.order_id.partner_id.id)]).write(
+                {'price_latest': get_data.price_unit})
