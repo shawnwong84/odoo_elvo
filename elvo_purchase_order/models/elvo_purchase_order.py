@@ -14,6 +14,7 @@ class PurchaseOrder(models.Model):
         ('done', 'Locked'),
         ('cancel', 'Cancelled')
     ], string='Status', readonly=True, index=True, copy=False, default='draft', tracking=True)
+    invoice_status = fields.Selection(selection_add=[('over', 'Over Receipt')])
     po_notes = fields.Selection([
         ('note1', 'MOHON KONFIRMASI SETELAH MENERIMA PO.'),
         ('note2', 'MOHON MENCANTUMKAN NOMOR PO PADA SURAT JALAN.'),
@@ -22,19 +23,6 @@ class PurchaseOrder(models.Model):
     ], string="Notes")
     tolerance = fields.Char(string="Tolerance")
     reason = fields.Char(string="Reason")
-
-    # def _compute_hide_button(self):
-    #     if self.amount_total == 0.0:
-    #         self.hide_confirm_order = self.hide_approve_manager = self.hide_approve_finance = self.hide_approve_bod = True
-    #     elif self.amount_total < 1000000:
-    #         self.hide_approve_manager = self.hide_approve_finance = self.hide_approve_bod = True
-    #         self.hide_confirm_order = False
-    #     elif self.amount_total >= 1000000 and self.amount_total < 10000000:
-    #         self.hide_confirm_order = self.hide_approve_finance = self.hide_approve_bod = True
-    #         self.hide_approve_manager = False
-    #     elif self.amount_total > 10000000:
-    #         self.hide_approve_finance = self.hide_approve_bod = False
-    #         self.hide_confirm_order = self.hide_approve_manager = True
 
     def button_confirm(self):
         res = super(PurchaseOrder, self).button_confirm()
@@ -77,10 +65,6 @@ class PurchaseOrderLine(models.Model):
                 [('product_id', '=', line.product_id.id), ('state', 'in', ['done', 'purchase'])],
                 order='write_date desc', limit=1)
             line.price_latest = get_data.price_unit
-            # self.env['product.supplierinfo'].search([('product_tmpl_id', '=', line.product_id.product_tmpl_id.id),
-            #                                          ('name', '=', line.order_id.partner_id.id)]).write(
-            #     {'price_latest': get_data.price_unit})
-#             update product.supplierinfo price_latest
             self.env['product.supplierinfo'].search([('product_tmpl_id', '=', line.product_id.product_tmpl_id.id),
                                                         ('name', '=', line.order_id.partner_id.id)]).write(
                 {'price_latest': get_data.price_unit})
