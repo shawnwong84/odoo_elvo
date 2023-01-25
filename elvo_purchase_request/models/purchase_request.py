@@ -10,7 +10,7 @@ class PurchaseRequition(models.Model):
         ('draft', 'Draft'),
         ('ongoing', 'Ongoing'),
         ('to_approve', 'To Approve'),
-        ('in_progress', 'Confirmed'),
+        ('in_progress', 'Approved'),
         ('open', 'Bid Selection'),
         ('done', 'Closed'),
         ('cancel', 'Cancelled')
@@ -30,7 +30,6 @@ class PurchaseRequition(models.Model):
             self.hide_approve_button = True
         else:
             self.hide_approve_button = False
-
 
     def to_approve(self):
         self.state = 'to_approve'
