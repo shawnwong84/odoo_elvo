@@ -9,6 +9,7 @@
     'data': [
         'views/purchase_order.xml',
         'views/elvo_product_supplier.xml',
+        'views/stock_picking.xml',
         'security/ir.model.access.csv',
         'security/access_groups.xml',
     ],

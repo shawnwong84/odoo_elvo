@@ -21,7 +21,7 @@ class PurchaseOrder(models.Model):
         ('note3', 'ALAMAT KIRIM BARANG SESUAI ALAMAT PENGIRIMAN DI PO.'),
         ('note4', 'FRANCO GUDANG ALAMAT PENGIRIMAN.')
     ], string="Notes")
-    tolerance = fields.Float(string="Tolerance", default=15.0)
+    tolerance = fields.Float(string="Tolerance", default=0.15)
     reason = fields.Char(string="Reason")
     receipt_status = fields.Selection([
         ('over', 'Over Receipt'),
@@ -84,11 +84,11 @@ class Picking(models.Model):
         tolerance = self.purchase_id.tolerance
         is_over = False
         for line in self.move_lines:
-            uom = line.product_uom_qty
-            qty_done = line.quantity_done
-            max = uom + (uom * (tolerance / 100)) + uom
-            is_over = True if qty_done > max else False
             if is_over:
                 break
+            uom = line.product_uom_qty
+            qty_done = line.quantity_done
+            max = uom + uom * tolerance
+            is_over = True if qty_done > max else False
         self.is_over_receipt = is_over
         is_over and self.purchase_id.write({'receipt_status': 'over'})
