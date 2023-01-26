@@ -21,7 +21,7 @@ class PurchaseOrder(models.Model):
         ('note3', 'ALAMAT KIRIM BARANG SESUAI ALAMAT PENGIRIMAN DI PO.'),
         ('note4', 'FRANCO GUDANG ALAMAT PENGIRIMAN.')
     ], string="Notes")
-    tolerance = fields.Float(string="Tolerance")
+    tolerance = fields.Float(string="Tolerance", default=15.0)
     reason = fields.Char(string="Reason")
     receipt_status = fields.Selection([
         ('over', 'Over Receipt'),

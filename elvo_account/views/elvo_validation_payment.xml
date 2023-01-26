@@ -13,6 +13,9 @@
             <xpath expr="//button[@name='action_create_payments']" position="after">
                 <button name="confirm_payment_to_bod" type="object" string="Create Payment" class="oe_highlight"/>
             </xpath>
+            <xpath expr="//field[@name='partner_bank_id']" position="after">
+                <field name="difference_amount"/>
+            </xpath>
         </field>
     </record>
 

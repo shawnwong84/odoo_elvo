@@ -5,7 +5,7 @@
         <field name="inherit_id" ref="sale.view_quotation_tree_with_onboarding"/>
         <field name="arch" type="xml">
             <xpath expr="//tree/field[@name='invoice_status']" position="after">
-                <field name="retur_status" optional="hide" widget="badge"/>
+                <field name="retur_status" optional="hide" widget="badge" readonly="1" />
             </xpath>
         </field>
     </record>

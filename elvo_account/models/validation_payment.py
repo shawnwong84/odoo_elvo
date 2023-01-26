@@ -5,6 +5,7 @@ class AccountPaymentRegister(models.TransientModel):
     _inherit = "account.payment.register"
 
     hide_create_payment = fields.Boolean(compute="_compute_hide_create_payment")
+    difference_amount = fields.Float("Difference Amount Each Marketplace")
 
     @api.depends("amount")
     def _compute_hide_create_payment(self):
