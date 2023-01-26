@@ -21,8 +21,12 @@ class PurchaseOrder(models.Model):
         ('note3', 'ALAMAT KIRIM BARANG SESUAI ALAMAT PENGIRIMAN DI PO.'),
         ('note4', 'FRANCO GUDANG ALAMAT PENGIRIMAN.')
     ], string="Notes")
-    tolerance = fields.Char(string="Tolerance")
+    tolerance = fields.Float(string="Tolerance")
     reason = fields.Char(string="Reason")
+    receipt_status = fields.Selection([
+        ('over', 'Over Receipt'),
+        ('under', 'Under Receipt'),
+    ])
 
     def button_confirm(self):
         res = super(PurchaseOrder, self).button_confirm()
@@ -68,3 +72,23 @@ class PurchaseOrderLine(models.Model):
             self.env['product.supplierinfo'].search([('product_tmpl_id', '=', line.product_id.product_tmpl_id.id),
                                                         ('name', '=', line.order_id.partner_id.id)]).write(
                 {'price_latest': get_data.price_unit})
+
+
+class Picking(models.Model):
+    _inherit = 'stock.picking'
+
+    is_over_receipt = fields.Boolean(string="Over Receipt", compute='_compute_over_receipt')
+
+    @api.depends('name', 'move_ids_without_package.quantity_done', 'move_ids_without_package.product_uom_qty')
+    def _compute_over_receipt(self):
+        tolerance = self.purchase_id.tolerance
+        is_over = False
+        for line in self.move_lines:
+            uom = line.product_uom_qty
+            qty_done = line.quantity_done
+            max = uom + (uom * (tolerance / 100)) + uom
+            is_over = True if qty_done > max else False
+            if is_over:
+                break
+        self.is_over_receipt = is_over
+        is_over and self.purchase_id.write({'receipt_status': 'over'})

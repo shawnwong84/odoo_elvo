@@ -16,7 +16,7 @@
                         class="oe_highlight"/>
             </xpath>
             <xpath expr="//group[@name='other_info']" position="inside">
-                <field name="tolerance"/>
+                <field name="tolerance" widget="percentage" />
             </xpath>
             <xpath expr="//tree/field[@name='product_uom']" position="after">
                 <field name="price_latest"/>
@@ -63,6 +63,17 @@
                     <button name="button_cancel" type="object" string="No" class="oe_highlight"/>
                 </footer>
             </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="elvo_purchase_order_tree">
+        <field name="name">elvo.purchase.order.tree</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_view_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//tree/field[@name='invoice_status']" position="after">
+                <field name="receipt_status" optional="hide" widget="badge" />
+            </xpath>
         </field>
     </record>
 </odoo>
