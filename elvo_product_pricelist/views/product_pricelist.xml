@@ -1,0 +1,16 @@
+<odoo>
+    <record model="ir.ui.view" id="product_pricelist_view_form">
+        <field name="name">product.pricelist.form</field>
+        <field name="model">product.pricelist</field>
+        <field name="inherit_id" ref="product.product_pricelist_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//tree/field[@name='min_quantity']" position="after">
+                <field name="shopee"/>
+                <field name="tokped"/>
+                <field name="lazada"/>
+                <field name="tiktok"/>
+                <field name="order_online"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>
