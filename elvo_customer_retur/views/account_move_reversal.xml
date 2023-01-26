@@ -1,0 +1,20 @@
+<odoo>
+    <record model="ir.ui.view" id="elvo_account_move_reversal">
+        <field name="name">elvo.account.move.reversal</field>
+        <field name="model">account.move.reversal</field>
+        <field name="inherit_id" ref="account.view_account_move_reversal"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group[2]" position="after">
+                <group>
+                    <field name="create_refund" widget="radio"/>
+                </group>
+                <group>
+                    <field name="refund_percentage" widget="percentage"
+                           attrs="{'invisible': [('create_refund', '!=', 'percentage')]}"/>
+                    <field name="refund_fixed" widget="monetary"
+                           attrs="{'invisible': [('create_refund', '=', 'percentage')]}"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>

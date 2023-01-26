@@ -1,0 +1,40 @@
+<odoo>
+    <record model="ir.ui.view" id="elvo_customer_retur">
+        <field name="name">elvo.customer.retur</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_quotation_tree_with_onboarding"/>
+        <field name="arch" type="xml">
+            <xpath expr="//tree/field[@name='invoice_status']" position="after">
+                <field name="retur_status" optional="hide" widget="badge"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="elvo_list_resi_tree">
+        <field name="name">elvo.list.resi.tree</field>
+        <field name="model">sale.order</field>
+        <field name="arch" type="xml">
+            <tree string="Daftar Resi" editable="top">
+                <field name="name"/>
+                <field name="date_order" string="Creation Date"/>
+                <field name="partner_id"/>
+                <field name="user_id"/>
+                <field name="team_id"/>
+                <field name="company_id" invisible="1" />
+                <field name="resi_kirim"/>
+                <field name="resi_retur"/>
+                <field name="resi_status" widget="badge" />
+                <field name="state" invisible="1" />
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="elvo_list_resi_action">
+        <field name="name">Daftar Resi</field>
+        <field name="res_model">sale.order</field>
+        <field name="view_id" ref="elvo_list_resi_tree"/>
+        <field name="view_mode">tree</field>
+    </record>
+
+    <menuitem id="elvo_list_resi_menu" name="Daftar Resi" parent="sale.sale_order_menu" action="elvo_list_resi_action"/>
+</odoo>
