@@ -15,12 +15,7 @@ class PurchaseOrder(models.Model):
         ('cancel', 'Cancelled')
     ], string='Status', readonly=True, index=True, copy=False, default='draft', tracking=True)
     invoice_status = fields.Selection(selection_add=[('over', 'Over Receipt')])
-    po_notes = fields.Selection([
-        ('note1', 'MOHON KONFIRMASI SETELAH MENERIMA PO.'),
-        ('note2', 'MOHON MENCANTUMKAN NOMOR PO PADA SURAT JALAN.'),
-        ('note3', 'ALAMAT KIRIM BARANG SESUAI ALAMAT PENGIRIMAN DI PO.'),
-        ('note4', 'FRANCO GUDANG ALAMAT PENGIRIMAN.')
-    ], string="Notes")
+    po_note = fields.Many2one('purchase.order.note', string="Notes")
     tolerance = fields.Float(string="Tolerance", default=0.15)
     reason = fields.Char(string="Reason")
     receipt_status = fields.Selection([
@@ -34,15 +29,19 @@ class PurchaseOrder(models.Model):
             self.state = 'purchase'
         elif self.amount_total >= 1000000:
             self.state = 'to_approve_manager'
+            self.env['stock.picking'].search([('purchase_id', '=', self.id)]).write({'state': 'waiting'})
+        return res
 
     def to_approve_manager(self):
         if self.amount_total < 10000000:
             self.state = 'purchase'
+            self.env['stock.picking'].search([('purchase_id', '=', self.id)]).write({'state': 'assigned'})
         elif self.amount_total >= 10000000:
             self.state = 'to_approve_bod'
 
     def to_approve_bod(self):
         self.state = 'purchase'
+        self.env['stock.picking'].search([('purchase_id', '=', self.id)]).write({'state': 'assigned'})
 
     def cancel_po_wizard(self):
         return {

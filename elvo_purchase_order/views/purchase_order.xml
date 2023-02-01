@@ -22,7 +22,7 @@
                 <field name="price_latest"/>
             </xpath>
             <xpath expr="//field[@name='notes']" position="replace">
-                <field name="po_notes" class="oe_inline" label="1"/>
+                <field name="po_note" class="oe_inline" label="1"/>
             </xpath>
             <xpath expr="//button[@name='button_cancel']" position="replace">
                 <button name="cancel_po_wizard" type="object" string="Cancel"/>

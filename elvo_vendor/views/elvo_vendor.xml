@@ -1,0 +1,12 @@
+<odoo>
+    <record model="ir.ui.view" id="elvo_vendor_taxes">
+        <field name="name">elvo.vendor.taxes</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='property_supplier_payment_term_id']" position="after">
+                <field name="taxes_id"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

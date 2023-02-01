@@ -1,7 +1,7 @@
 {
     'name': 'elvo_purchase_order',
     'version': '1.0',
-    'depends': ['purchase'],
+    'depends': ['purchase', 'purchase_stock'],
     'description': """
         Elvo Purchase Order
     """,

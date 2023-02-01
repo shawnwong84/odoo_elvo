@@ -5,11 +5,28 @@
         <field name="inherit_id" ref="product.product_pricelist_view"/>
         <field name="arch" type="xml">
             <xpath expr="//tree/field[@name='min_quantity']" position="after">
-                <field name="shopee"/>
-                <field name="tokped"/>
-                <field name="lazada"/>
-                <field name="tiktok"/>
-                <field name="order_online"/>
+                <field name="shopee" widget="percentage" />
+                <field name="tokped" widget="percentage" />
+                <field name="lazada" widget="percentage" />
+                <field name="tiktok" widget="percentage" />
+                <field name="order_online" widget="percentage" />
+            </xpath>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="elvo_pricelist_applicable_on">
+        <field name="name">elvo.pricelist.applicable.on</field>
+        <field name="model">product.pricelist.item</field>
+        <field name="inherit_id" ref="product.product_pricelist_item_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='pricelist_rule_advanced']" position="after">
+                <group style="width: 50%">
+                    <field name="shopee" widget="percentage" />
+                    <field name="tokped" widget="percentage" />
+                    <field name="lazada" widget="percentage" />
+                    <field name="tiktok" widget="percentage" />
+                    <field name="order_online" widget="percentage" />
+                </group>
             </xpath>
         </field>
     </record>

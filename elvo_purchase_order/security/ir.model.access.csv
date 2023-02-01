@@ -1,3 +1,4 @@
 id,name,model_id/id,group_id/id,perm_read,perm_write,perm_create,perm_unlink
 acces_cancel_po_wizard,access_cancel_po_wizard,model_cancel_po_wizard,,1,1,1,1
 acces_confirmation_to_cancel,access_confirmation_to_cancel,model_confirmation_to_cancel,,1,1,1,1
+acces_purchase_order_note,access_purchase_order_note,model_purchase_order_note,,1,1,1,1

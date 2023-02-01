@@ -9,4 +9,15 @@
             </xpath>
         </field>
     </record>
+
+    <record model="ir.ui.view" id="elvo_product_supplier_info_form">
+        <field name="name">elvo.product.supplier.info.form</field>
+        <field name="model">product.supplierinfo</field>
+        <field name="inherit_id" ref="product.product_supplierinfo_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group/group[2]/label[3]" position="before">
+                <field name="price_latest"/>
+            </xpath>
+        </field>
+    </record>
 </odoo>
