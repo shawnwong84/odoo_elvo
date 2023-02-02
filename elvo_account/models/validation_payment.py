@@ -24,6 +24,8 @@ class AccountPaymentRegister(models.TransientModel):
             'target': 'new',
             'context': {
                 'default_communication': self.communication,
+                'default_payment_difference_handling': self.payment_difference_handling,
+                'default_payment_difference': self.payment_difference,
             }
         }
 
@@ -33,6 +35,9 @@ class PoValidationPayment(models.TransientModel):
     _description = 'PO Validation Payment'
 
     communication = fields.Char()
+    payment_difference_handling = fields.Selection([('open', 'Keep open'), ('reconcile', 'Mark invoice as fully paid')],
+                                                   string="Payment Difference Handling")
+    payment_difference = fields.Float("Payment Difference")
 
     def button_cancel(self):
         return {
@@ -40,8 +45,12 @@ class PoValidationPayment(models.TransientModel):
         }
 
     def approve_button(self):
-        account_move_id = self.env['account.move'].search([('name', '=', self.communication)])
-        account_move_id.payment_state = 'not_paid'
-        return {
-            'type': 'ir.actions.act_window_close'
-        }
+        if self.payment_difference_handling == "open":
+            self.env['account.payment'].browse(self._context.get('active_id')).post()
+        elif self.payment_difference_handling == "reconcile":
+            self.env['account.payment'].browse(self._context.get('active_id')).reconcile()
+            account_move_id = self.env['account.move'].search([('name', '=', self.communication)])
+            account_move_id.payment_state = 'not_paid'
+            return {
+                'type': 'ir.actions.act_window_close'
+            }
