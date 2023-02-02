@@ -10,6 +10,7 @@
         'views/purchase_order.xml',
         'views/elvo_product_supplier.xml',
         'views/stock_picking.xml',
+        'views/elvo_request_for_quotation.xml',
         'security/ir.model.access.csv',
         'security/access_groups.xml',
     ],
