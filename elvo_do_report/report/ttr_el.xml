@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <report id="action_report_ttr_el"
+            model="stock.picking"
+            string="Tanda Terima Retur"
+            report_type="qweb-pdf"
+            name="elvo_do_report.ttr_el"
+            file="elvo_do_report.ttr_el"
+            print_report_name="'Tanda Terima Retur - %s' % (object.name)"
+    />
+    <template id="ttr_el">
+        <t t-call="web.basic_layout">
+            <t t-foreach="docs" t-as="o">
+                <div class="page">
+                    <style>
+                        .header {
+                        position: running(header);
+                        }
+                        .footer {
+                        position: running(footer);
+                        }
+                        @page {
+                        @top-center {
+                        content: element(header);
+                        }
+                        @bottom-center {
+                        content: element(footer);
+                        }
+                        }
+                        @page :second {
+                        @top-center {
+                        content: element(header);
+                        }
+                        @bottom-center {
+                        content: element(footer);
+                        }
+                        }
+                    </style>
+                    <div class="header">
+                    <center>
+                        <h2 style="font-size:25px;">TANDA TERIMA RETUR</h2>
+                    </center>
+                    <table style="border-collapse: collapse; width: 100%;" border="1">
+                        <tbody>
+                            <tr>
+                                <td style="width: 20%;">Nama Pengirim</td>
+                                <td style="width: 1%;">:</td>
+                                <td style="width: 79%;">
+                                    <span t-field="o.partner_id.name"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width: 20%;">Alamat</td>
+                                <td style="width: 1%;">:</td>
+                                <td style="width: 79%;">
+                                    <span t-field="o.partner_id.street"/>
+                                    <span t-if="o.partner_id.city">,</span>
+                                    <span t-field="o.partner_id.city"/>
+                                    <span t-if="o.partner_id.state_id or o.partner_id.city">,</span>
+                                    <span t-field="o.partner_id.state_id"/>
+                                    <span t-if="o.partner_id.state_id or o.partner_id.zip">,</span>
+                                    <span t-field="o.partner_id.zip"/>
+                                    <span t-if="o.partner_id.country_id or o.partner_id.zip">,</span>
+                                    <span t-field="o.partner_id.country_id"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width: 20%;">Tanggal</td>
+                                <td style="width: 1%;">:</td>
+                                <td style="width: 79%;">
+                                    <span t-field="o.date" t-options='{"format": "dd-MM-yyyy"}'/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width: 20%;">DP PickUp</td>
+                                <td style="width: 1%;">:</td>
+                                <td style="width: 79%;">
+                                    <span t-field="o.location_id"/>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    </div>
+                    <div style="page-break-after: always;">
+                    <table style="border-collapse: collapse; width: 100%;" border="1">
+                        <tbody>
+                            <tr>
+                                <td style="width: 3%; text-align: center;border: solid 1px black;background-color:#ffbd1b;">
+                                    <strong>No</strong>
+                                </td>
+                                <td style="width: 37%; text-align: center;border: solid 1px black;background-color:#ffbd1b;">
+                                    <strong>No.Waybill</strong>
+                                </td>
+                                <td style="width: 5%; text-align: center;border: solid 1px black;background-color:#ffbd1b;">
+                                    <strong>QTY</strong>
+                                </td>
+                                <td style="width: 55%; text-align: center;border: solid 1px black;background-color:#ffbd1b;">
+                                    <strong>Keterangan</strong>
+                                </td>
+                            </tr>
+                            <t t-foreach="o.move_lines" t-as="li">
+                                <tr>
+                                    <td style="width: 3%; border: solid 1px black;padding-left:6px;padding-right:6px;">
+                                        <span t-esc="li_index+1"/>
+                                    </td>
+                                    <td style="width: 37%;border: solid 1px black;padding-left:6px;padding-right:6px;">
+                                        <span t-field="li.product_id"/>
+                                    </td>
+                                    <td style="width: 5%;border: solid 1px black;padding-left:6px;padding-right:6px;">
+                                        <span t-field="li.quantity_done"/>
+                                    </td>
+                                    <td style="width: 55%;border: solid 1px black;padding-left:6px;padding-right:6px;text-align: right;">
+                                    </td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                    </div>
+                    <div class="footer">
+                        <table style="border-collapse: collapse; width: 100%;" border="1">
+                            <tbody>
+                                <tr>
+                                    <td style="width: 40%;padding-left:6px;padding-right:6px;text-align: center;">Yang Menyerahkan,
+                                    </td>
+                                    <td style="width: 5%;padding-left:6px;padding-right:6px;">
+                                    </td>
+                                    <td style="width: 55%;padding-left:6px;padding-right:6px;text-align: center;">Yang Menerima,
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

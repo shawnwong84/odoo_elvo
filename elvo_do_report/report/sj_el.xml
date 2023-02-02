@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <report id="action_report_sj_el"
+            model="stock.picking"
+            string="Surat Jalan"
+            report_type="qweb-pdf"
+            name="elvo_do_report.sj_el"
+            file="elvo_do_report.sj_el"
+            print_report_name="'Surat Jalan - %s' % (object.name)"
+    />
+    <template id="sj_el">
+        <t t-call="web.basic_layout">
+            <t t-foreach="docs" t-as="o">
+                <div class="page">
+                    <style>
+                        .header {
+                        position: running(header);
+                        }
+                        .footer {
+                        position: running(footer);
+                        }
+                        @page {
+                        @top-center {
+                        content: element(header);
+                        }
+                        @bottom-center {
+                        content: element(footer);
+                        }
+                        }
+                        @page :second {
+                        @top-center {
+                        content: element(header);
+                        }
+                        @bottom-center {
+                        content: element(footer);
+                        }
+                        }
+                    </style>
+                    <div class="header">
+                        <div class="row">
+                            <div class="col-4">
+                                <table style="border-collapse: collapse; width: 60%;" border="1">
+                                    <tbody>
+                                        <tr>
+                                            <td style="width: 60%;font-size:25px; text-align: center;border-bottom:1px solid black;">
+                                                <strong>SURAT JALAN</strong>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="width: 60%;font-size:17px; text-align: center;">Faktur Menyusul
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-8">
+                                <table style="border-collapse: collapse; width: 100%;" border="1">
+                                    <tbody>
+                                        <tr>
+                                            <td style="width: 4%;">&#160;</td>
+                                            <td style="width: 19%;">&#160;</td>
+                                            <td style="width: 15%; text-align: center;" rowspan="2">&#160;</td>
+                                            <td style="width: 62%; border-bottom: 1px dotted black;">&#160;</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="width: 4%;">&#160;</td>
+                                            <td style="width: 19%;">&#160;</td>
+                                            <td style="width: 62%; border-bottom: 1px dotted black;">&#160;</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="width: 4%;">&#160;</td>
+                                            <td style="width: 19%;">&#160;</td>
+                                            <td style="width: 15%; text-align: center;" rowspan="2">Kepada</td>
+                                            <td style="width: 62%; border-bottom: 1px dotted black;">&#160;</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="width: 4%;">No.</td>
+                                            <td style="width: 19%; border-bottom: 1px solid black;">
+                                                <span t-field="o.name"/>
+                                            </td>
+                                            <td style="width: 62%; border-bottom: 1px dotted black;">&#160;</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <table style="border-collapse: collapse; width: 100%;" border="1">
+                            <tbody>
+                                <tr>
+                                    <td style="width: 55%;">
+                                        &#160;
+                                    </td>
+                                    <td style="width: 27%;">&#160;</td>
+                                    <td style="width: 3%;">&#160;</td>
+                                    <td style="width: 25%; ">&#160;</td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 55%;">Kami kirimkan barang-barang tersebut di bawah ini dengan
+                                        kendaraaan
+                                    </td>
+                                    <td style="width: 27%; border-bottom: 1px dotted black;">&#160;</td>
+                                    <td style="width: 3%;">No.</td>
+                                    <td style="width: 25%; border-bottom: 1px dotted black;">&#160;</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div style="page-break-after: always;">
+                        <table style="border-collapse: collapse; width: 100%;" border="1">
+                            <tbody>
+                                <tr>
+                                    <td style="width: 20%; text-align: center;border: solid 1px black;background-color:lightgray;">
+                                        <strong>Banyaknya</strong>
+                                    </td>
+                                    <td style="width: 80%; text-align: center;border: solid 1px black;background-color:lightgray;">
+                                        <strong>NAMA BARANG</strong>
+                                    </td>
+                                </tr>
+
+                                <t t-foreach="o.move_lines" t-as="li">
+                                    <tr>
+                                        <td style="width: 20%; border: solid 1px black;padding-left:6px;padding-right:6px;">
+                                        </td>
+                                        <td style="width: 80%;border: solid 1px black;padding-left:6px;padding-right:6px;">
+                                            <span t-field="li.product_id"/>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="footer">
+                        <table style="border-collapse: collapse; width: 100%;" border="1">
+                            <tbody>
+                                <tr>
+                                    <td style="width: 15%;">&#160;</td>
+                                    <td style="width: 20%; text-align: center;">Tanda Terima,</td>
+                                    <td style="width: 30%;">&#160;</td>
+                                    <td style="width: 20%; text-align: center;">Hormat Kami,</td>
+                                    <td style="width: 15%;">&#160;</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

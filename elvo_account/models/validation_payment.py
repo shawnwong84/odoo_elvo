@@ -45,12 +45,10 @@ class PoValidationPayment(models.TransientModel):
         }
 
     def approve_button(self):
-        if self.payment_difference_handling == "open":
-            self.env['account.payment'].browse(self._context.get('active_id')).post()
-        elif self.payment_difference_handling == "reconcile":
+        if self.payment_difference_handling == "reconcile":
             self.env['account.payment'].browse(self._context.get('active_id')).reconcile()
-            account_move_id = self.env['account.move'].search([('name', '=', self.communication)])
-            account_move_id.payment_state = 'not_paid'
-            return {
-                'type': 'ir.actions.act_window_close'
-            }
+        account_move_id = self.env['account.move'].search([('name', '=', self.communication)])
+        account_move_id.payment_state = 'not_paid'
+        return {
+            'type': 'ir.actions.act_window_close'
+        }
