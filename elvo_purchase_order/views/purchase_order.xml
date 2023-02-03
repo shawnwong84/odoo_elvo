@@ -16,7 +16,7 @@
                         class="oe_highlight"/>
             </xpath>
             <xpath expr="//group[@name='other_info']" position="inside">
-                <field name="tolerance" widget="percentage" />
+                <field name="tolerance" widget="percentage"/>
             </xpath>
             <xpath expr="//tree/field[@name='product_uom']" position="after">
                 <field name="price_latest"/>
@@ -24,8 +24,14 @@
             <xpath expr="//field[@name='notes']" position="replace">
                 <field name="po_note" class="oe_inline" label="1"/>
             </xpath>
-            <xpath expr="//button[@name='button_cancel']" position="replace">
-                <button name="cancel_po_wizard" type="object" string="Cancel"/>
+            <xpath expr="//button[@name='button_cancel']" position="after">
+                <button name="cancel_po_wizard" type="object" string="Cancel"
+                        attrs="{'invisible': [('state', 'in', ('draft', 'sent'))]}"/>
+            </xpath>
+            <xpath expr="//button[@name='button_cancel']" position="attributes">
+                <attribute name="attrs">{'invisible': [('state', 'not in', ('draft', 'sent'))]}</attribute>
+                <attribute name="modifiers">{}</attribute>
+                <attribute name="states">0</attribute>
             </xpath>
         </field>
     </record>
@@ -72,7 +78,7 @@
         <field name="inherit_id" ref="purchase.purchase_order_view_tree"/>
         <field name="arch" type="xml">
             <xpath expr="//tree/field[@name='invoice_status']" position="after">
-                <field name="receipt_status" optional="hide" widget="badge" />
+                <field name="receipt_status" optional="hide" widget="badge"/>
             </xpath>
         </field>
     </record>
