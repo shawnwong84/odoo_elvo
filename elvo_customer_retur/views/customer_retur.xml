@@ -5,7 +5,7 @@
         <field name="inherit_id" ref="sale.view_quotation_tree_with_onboarding"/>
         <field name="arch" type="xml">
             <xpath expr="//tree/field[@name='invoice_status']" position="after">
-                <field name="retur_status" optional="hide" widget="badge" readonly="1" />
+                <field name="retur_status" optional="hide" widget="badge" readonly="1"/>
             </xpath>
         </field>
     </record>
@@ -15,16 +15,22 @@
         <field name="model">sale.order</field>
         <field name="arch" type="xml">
             <tree string="Daftar Resi" editable="top">
+                <header>
+                                    <button name="action_to_process" type="object" string="Process" icon="fa-check"/>
+                <button name="action_to_sent" type="object" string="Sent" icon="fa-truck"/>
+                <button name="action_to_printed" type="object" string="Printed" icon="fa-print"/>
+                <button name="action_to_reprinted" string="Reprinted" icon="fa-print"/>
+                </header>
                 <field name="name"/>
                 <field name="date_order" string="Creation Date"/>
                 <field name="partner_id"/>
                 <field name="user_id"/>
                 <field name="team_id"/>
-                <field name="company_id" invisible="1" />
+                <field name="company_id" invisible="1"/>
                 <field name="resi_kirim"/>
                 <field name="resi_retur"/>
-                <field name="resi_status" widget="badge" />
-                <field name="state" invisible="1" />
+                <field name="resi_status" widget="badge"/>
+                <field name="state" invisible="1"/>
             </tree>
         </field>
     </record>

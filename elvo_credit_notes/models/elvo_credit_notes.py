@@ -1,6 +1,5 @@
 from odoo import models, fields, api
 
-
 class AccountPaymentRegister(models.TransientModel):
     _inherit = 'account.payment.register'
 
@@ -19,3 +18,8 @@ class AccountPaymentRegister(models.TransientModel):
     def onchange_type_of_amount(self):
         if self.type_of_payment == 'down_payment':
             self.dp_amount = self.amount
+
+class AccountMove(models.Model):
+    _inherit = 'account.move'
+
+    payment_state = fields.Selection(selection_add=[('down_payment', 'Down Payment')])

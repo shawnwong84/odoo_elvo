@@ -15,3 +15,15 @@ class SaleOrder(models.Model):
         ('printed', 'Printed'),
         ('reprinted', 'Reprinted'),
     ], string="Status Resi")
+
+    def action_to_process(self):
+        self.resi_status = 'to_process'
+
+    def action_to_sent(self):
+        self.resi_status = 'sent'
+
+    def action_to_printed(self):
+        self.resi_status = 'printed'
+
+    def action_to_reprinted(self):
+        self.resi_status = 'reprinted'
