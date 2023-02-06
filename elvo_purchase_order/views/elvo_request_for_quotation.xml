@@ -10,14 +10,7 @@
         </field>
     </record>
 
-    <record model="ir.ui.view" id="elvo_request_for_quotation_kanban">
-        <field name="name">elvo.request.for.quotation.kanban</field>
-        <field name="model">purchase.order</field>
-        <field name="inherit_id" ref="purchase.view_purchase_order_kanban"/>
-        <field name="arch" type="xml">
-            <xpath expr="//kanban" position="attributes">
-                <attribute name="create">false</attribute>
-            </xpath>
-        </field>
+    <record id="purchase.purchase_rfq" model="ir.actions.act_window">
+        <field name="context">{'quotation_only': True, 'create': False}</field>
     </record>
 </odoo>

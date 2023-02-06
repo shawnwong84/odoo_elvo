@@ -16,19 +16,20 @@ class AccountPaymentRegister(models.TransientModel):
                 x.hide_create_payment = False
 
     def confirm_payment_to_bod(self):
+        context = {}
+        all_fields = self.fields_get()
+        for field_name, field_value in all_fields.items():
+            if field_value['type'] in ['char', 'text', 'integer', 'float', 'boolean', 'datetime']:
+                context[f'default_{field_name}'] = getattr(self, field_name)
+        print(all_fields)
         return {
             'name': _('Confirm Payment'),
             'type': 'ir.actions.act_window',
             'view_mode': 'form',
             'res_model': 'po.validation.payment',
             'target': 'new',
-            'context': {
-                'default_communication': self.communication,
-                'default_payment_difference_handling': self.payment_difference_handling,
-                'default_payment_difference': self.payment_difference,
-            }
+            'context': context,
         }
-
 
 class PoValidationPayment(models.TransientModel):
     _name = 'po.validation.payment'
@@ -39,18 +40,26 @@ class PoValidationPayment(models.TransientModel):
                                                    string="Payment Difference Handling")
     payment_difference = fields.Float("Payment Difference")
 
+    @api.model
+    def default_get(self, fields):
+        res = super().default_get(fields)
+        context = self._context
+        for field_name, field_value in context.items():
+            if field_name.startswith('default_'):
+                res[field_name[8:]] = field_value
+        return res
+
     def button_cancel(self):
         return {
             'type': 'ir.actions.act_window_close'
         }
 
     def approve_button(self):
-        account_move_id = self.env['account.move'].search([('name', '=', self.communication)])
-        if self.payment_difference_handling == 'open' and self.payment_difference > 0:
-            account_move_id.payment_state = 'partial'
-        else:
-        # self.env['account.payment.register'].action_create_payments()
-            account_move_id.payment_state = 'not_paid'
+        account_move = self.env['account.move'].search([('name', '=', self.communication)])
+        payment_state = 'partial' if self.payment_difference_handling == 'open' and self.payment_difference > 0 else 'not_paid'
+        account_move.payment_state = payment_state
+        payment_register = self.env['account.payment.register'].browse(self.ids)
+        payment_register.action_create_payments()
         return {
             'type': 'ir.actions.act_window_close'
         }
