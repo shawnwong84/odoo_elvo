@@ -1,0 +1,21 @@
+<odoo>
+    <record model="ir.ui.view" id="elvo_credit_notes">
+        <field name="name">elvo.credit.notes</field>
+        <field name="model">account.payment.register</field>
+        <field name="inherit_id" ref="account.view_account_payment_register_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='partner_bank_id']" position="after">
+                <field name="type_of_payment" widget="radio"/>
+            </xpath>
+            <xpath expr="//field[@name='payment_date']" position="before">
+                <field name="dp_amount" attrs="{'invisible': [('type_of_payment', '=', 'regular')]}"/>
+            </xpath>
+            <xpath expr="//field[@name='amount']" position="attributes">
+                <attribute name="attrs">{'invisible': [('type_of_payment', '=', 'down_payment')]}</attribute>
+            </xpath>
+            <xpath expr="//group/group/label" position="attributes">
+                <attribute name="attrs">{'invisible': [('type_of_payment', '=', 'down_payment')]}</attribute>
+            </xpath>
+        </field>
+    </record>
+</odoo>
