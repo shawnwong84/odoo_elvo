@@ -5,3 +5,10 @@ class Inventory(models.Model):
 
     pic1 = fields.Many2one("res.users", string="PIC 1")
     pic2 = fields.Many2one("res.users", string="PIC 2")
+
+class StockPicking(models.Model):
+    _inherit = "stock.picking"
+
+    def action_scan_to_done(self):
+        self.button_validate()
+        self.state = 'done'

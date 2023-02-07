@@ -95,7 +95,11 @@ class Picking(models.Model):
                 self.receipt_status = 'over'
             elif qty_done >= line.product_uom_qty and qty_done < max:
                 self.receipt_status = 'receipt'
-            elif qty_done < line.product_uom_qty and qty_done != 0:
+            elif qty_done < line.product_uom_qty or qty_done == 0:
                 self.receipt_status = 'under'
-            self.receipt_status and self.purchase_id.write({'receipt_status': self.receipt_status})
+            else:
+                self.receipt_status = 'under'
+        self.receipt_status and self.purchase_id.write({'receipt_status': self.receipt_status})
+
+
 
