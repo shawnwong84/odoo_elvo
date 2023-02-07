@@ -34,14 +34,14 @@ class AccountPaymentRegister(models.TransientModel):
     #         'context': context,
     #     }
 
-# class PoValidationPayment(models.TransientModel):
-#     _name = 'po.validation.payment'
-#     _description = 'PO Validation Payment'
-#
-#     communication = fields.Char()
-#     payment_difference_handling = fields.Selection([('open', 'Keep open'), ('reconcile', 'Mark invoice as fully paid')],
-#                                                    string="Payment Difference Handling")
-#     payment_difference = fields.Float("Payment Difference")
+class PoValidationPayment(models.TransientModel):
+    _name = 'po.validation.payment'
+    _description = 'PO Validation Payment'
+
+    communication = fields.Char()
+    payment_difference_handling = fields.Selection([('open', 'Keep open'), ('reconcile', 'Mark invoice as fully paid')],
+                                                   string="Payment Difference Handling")
+    payment_difference = fields.Float("Payment Difference")
 #
 #     @api.model
 #     def default_get(self, fields):

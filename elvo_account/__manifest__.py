@@ -9,7 +9,7 @@
     'data': [
         'views/elvo_account.xml',
         'views/elvo_validation_payment.xml',
-        # 'security/ir.model.access.csv',
+        'security/ir.model.access.csv',
     ],
     'installable': True,
     'application': True,
