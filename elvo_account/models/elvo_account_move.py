@@ -6,6 +6,7 @@ class AccountMove(models.Model):
 
     def bod_validation_payment(self):
         self.payment_state = "in_payment"
+
     @api.model
     def fields_view_get(self, view_id=None, view_type='form', toolbar=False, submenu=False):
         res = super(AccountMove, self).fields_view_get(view_id=view_id, view_type=view_type, toolbar=toolbar, submenu=submenu)

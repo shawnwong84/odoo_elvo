@@ -16,7 +16,12 @@ class AccountPaymentRegister(models.TransientModel):
                 x.hide_create_payment = False
 
     def confirm_payment_to_bod(self):
+        # set state to partial
         self.action_create_payments()
+        account_move = self.env['account.move'].search([('name', '=', self.communication)])
+        account_move.payment_state = 'not_paid'
+        # account_move.state = 'draft'
+
 
     # def confirm_payment_to_bod(self):
     #     context = {}

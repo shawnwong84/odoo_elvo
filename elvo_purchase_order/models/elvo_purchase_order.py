@@ -56,7 +56,6 @@ class PurchaseOrder(models.Model):
             }
         }
 
-
 class PurchaseOrderLine(models.Model):
     _inherit = 'purchase.order.line'
 
