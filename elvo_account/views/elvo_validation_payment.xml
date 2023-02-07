@@ -12,7 +12,8 @@
             </xpath>
             <xpath expr="//button[@name='action_create_payments']" position="after">
                 <button name="confirm_payment_to_bod" type="object" string="Create Payment" class="oe_highlight"
-                        attrs="{'invisible': [('hide_create_payment', '=', False)]}"/>
+                        attrs="{'invisible': [('hide_create_payment', '=', False)]}" confirm="Your payment is more than 10.000.000, so you must submit to BOD. Are you sure want to submit this
+                        transaction?"/>
             </xpath>
             <xpath expr="//field[@name='partner_bank_id']" position="after">
                 <field name="difference_amount"/>
@@ -20,21 +21,21 @@
         </field>
     </record>
 
-    <record model="ir.ui.view" id="elvo_validation_payment">
-        <field name="name">elvo.validation.payment</field>
-        <field name="model">po.validation.payment</field>
-        <field name="arch" type="xml">
-            <form>
-                <group style="text-align: center">
-                    <p>Your payment is more than 10.000.000, so you must submit to BOD. Are you sure want to submit this
-                        transaction?
-                    </p>
-                </group>
-                <footer>
-                    <button name="approve_button" type="object" string="Yes" class="oe_highlight"/>
-                    <button name="button_cancel" type="object" string="No" class="oe_highlight"/>
-                </footer>
-            </form>
-        </field>
-    </record>
+<!--    <record model="ir.ui.view" id="elvo_validation_payment">-->
+<!--        <field name="name">elvo.validation.payment</field>-->
+<!--        <field name="model">po.validation.payment</field>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <form>-->
+<!--                <group style="text-align: center">-->
+<!--                    <p>Your payment is more than 10.000.000, so you must submit to BOD. Are you sure want to submit this-->
+<!--                        transaction?-->
+<!--                    </p>-->
+<!--                </group>-->
+<!--                <footer>-->
+<!--                    <button name="approve_button" type="object" string="Yes" class="oe_highlight"/>-->
+<!--                    <button name="button_cancel" type="object" string="No" class="oe_highlight"/>-->
+<!--                </footer>-->
+<!--            </form>-->
+<!--        </field>-->
+<!--    </record>-->
 </odoo>

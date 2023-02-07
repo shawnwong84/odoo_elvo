@@ -1,13 +1,13 @@
 from odoo import fields, models, api, _
-from odoo.exceptions import UserError
-import requests
-import json
-from datetime import datetime
-import time
-import hashlib
-import calendar
-import hmac
-import lazop_sdk as lazop
+# from odoo.exceptions import UserError
+# import requests
+# import json
+# from datetime import datetime
+# import time
+# import hashlib
+# import calendar
+# import hmac
+# import lazop_sdk as lazop
 
 
 class MasterMarketplace(models.Model):
@@ -16,12 +16,12 @@ class MasterMarketplace(models.Model):
 
     name = fields.Char(string="Marketplace Name", required=True)
 
-    def test_api(self):
-        client = lazop.LazopClient('https://auth.lazada.com/rest', '115530', '748b3104-2892-47c9-3d91-1469e1d48874')
-        request = lazop.LazopRequest('/seller/get', 'GET')
-        response = client.execute(request, '92c5fff4cac74b7d80a7c7206f55532d')
-        print(response.type)
-        print(response.body)
+    # def test_api(self):
+    #     client = lazop.LazopClient('https://auth.lazada.com/rest', '115530', '748b3104-2892-47c9-3d91-1469e1d48874')
+    #     request = lazop.LazopRequest('/seller/get', 'GET')
+    #     response = client.execute(request, '92c5fff4cac74b7d80a7c7206f55532d')
+    #     print(response.type)
+    #     print(response.body)
         # request = lazop.LazopRequest('/auth/token/create')
         # request.add_api_param('code', '0_100132_2DL4DV3jcU1UOT7WGI1A4rY91')
         # request.add_api_param('uuid', 'This field is currently invalid,  do not use this field please')
@@ -36,7 +36,7 @@ class MasterMarketplace(models.Model):
         # print(response.type)
         # print(response.body)
         # a = self.sign("115530", "pvErlXpt2WsdjkrrF7zqi5xHWGvde3rY")
-        raise UserError(str(response.body))
+        # raise UserError(str(response.body))
 
     # def convert_time(self):
     #     # get current date and time
@@ -47,25 +47,25 @@ class MasterMarketplace(models.Model):
     #     timestamp = int(timestamp * 1000)
     #     return timestamp
     #
-    def sign(self, secret, api, parameters):
+    # def sign(self, secret, api, parameters):
         # ===========================================================================
         # @param secret
         # @param parameters
         # ===========================================================================
-        sort_dict = sorted(parameters)
-
-        parameters_str = "%s%s" % (api,
-                                   str().join('%s%s' % (key, parameters[key]) for key in sort_dict))
-
-        h = hmac.new(secret.encode(encoding="utf-8"), parameters_str.encode(encoding="utf-8"), digestmod=hashlib.sha256)
-
-        return h.hexdigest().upper()
-    def generate_sign_method(self, app_key, app_secret):
-        # Concatenate app_key and app_secret
-        data = app_key + app_secret
-        # Create SHA-256 hash
-        sign_method = hashlib.sha256(data.encode()).hexdigest()
-        return sign_method
+        # sort_dict = sorted(parameters)
+        #
+        # parameters_str = "%s%s" % (api,
+        #                            str().join('%s%s' % (key, parameters[key]) for key in sort_dict))
+        #
+        # h = hmac.new(secret.encode(encoding="utf-8"), parameters_str.encode(encoding="utf-8"), digestmod=hashlib.sha256)
+        #
+        # return h.hexdigest().upper()
+    # def generate_sign_method(self, app_key, app_secret):
+    #     # Concatenate app_key and app_secret
+    #     data = app_key + app_secret
+    #     # Create SHA-256 hash
+    #     sign_method = hashlib.sha256(data.encode()).hexdigest()
+    #     return sign_method
     #
     # def generate_sign_method(self, app_key, app_secret):
     #     # Concatenate app_key and app_secret

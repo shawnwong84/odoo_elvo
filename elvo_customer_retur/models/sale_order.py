@@ -14,7 +14,7 @@ class SaleOrder(models.Model):
         ('sent', 'Sent'),
         ('printed', 'Printed'),
         ('reprinted', 'Reprinted'),
-    ], string="Status Resi")
+    ], string="Status Resi", default='to_process')
 
     def action_to_process(self):
         self.resi_status = 'to_process'
