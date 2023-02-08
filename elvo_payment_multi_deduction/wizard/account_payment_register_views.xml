@@ -1,0 +1,52 @@
+<odoo>
+
+    <record id="account.menu_finance" model="ir.ui.menu">
+        <field name="name" >Finance Accounting</field>
+    </record>
+<!--    <menuitem id="menu_hr_perijinan" name="General" parent="hr_menus" groups="hr.group_hr_user" sequence="60"/>-->
+    <record id="view_account_payment_register_form" model="ir.ui.view">
+        <field name="name">account.payment.register.form</field>
+        <field name="model">account.payment.register</field>
+        <field name="inherit_id" ref="account.view_account_payment_register_form" />
+        <field name="groups_id" eval="[(4, ref('account.group_account_invoice'))]" />
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='amount_div']" position="after">
+                <label for="amount_company"
+                       attrs="{'invisible': ['|', ('can_edit_wizard', '=', False), '&amp;', ('can_group_payments', '=', True), ('group_payment', '=', False)]}"/>
+                <div name="amount_company" class="o_row"
+                     attrs="{'invisible': ['|', ('can_edit_wizard', '=', False), '&amp;', ('can_group_payments', '=', True), ('group_payment', '=', False)]}">
+                    <field name="amount_company"/>
+                    <field name="currency_company" readonly="1" force_save="1"
+                           options="{'no_create': True, 'no_open': True}"/>
+                </div>
+            </xpath>
+            <xpath expr="/form/group/group[@name='group3']/div/div" position="attributes" >
+                <attribute name="attrs" >
+                    {'invisible': [('payment_difference_handling','!=','reconcile')]}
+                </attribute>
+            </xpath>
+            <xpath expr="/form/group/group[@name='group3']" position="after">
+                <group colspan="4" attrs="{'invisible': [('payment_difference_handling', '!=', 'reconcile_multi_deduct')]}">
+                    <field name="deduct_residual" invisible="1" />
+                    <field
+                        name="deduction_ids"
+                        nolabel="1"
+                        colspan="2"
+                        context="{'default_amount': deduct_residual}"
+                    >
+                        <tree editable="bottom">
+                            <field name="currency_id" invisible="1" />
+                            <field name="open" invisible="1"/>
+                            <field
+                                name="account_id"
+                                attrs="{'required': [('open', '=', False)]}"
+                            />
+                            <field name="name" />
+                            <field name="amount" sum="Total Deduction" />
+                        </tree>
+                    </field>
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -6,7 +6,7 @@
     'description' : """
      """,
     "license" : "OPL-1",
-    'depends' : ['sale_management','purchase','account','akm_payment_multi_deduction'],
+    'depends' : ['sale_management','purchase','account','elvo_payment_multi_deduction'],
     'data': [
                 'security/advance_payment_group.xml',
                 'security/ir.model.access.csv',
