@@ -17,7 +17,7 @@
     <record id="view_account_payment_register_form_advance" model="ir.ui.view">
         <field name="name">view_account_payment_register_form_advance</field>
         <field name="model">account.payment.register</field>
-        <field name="inherit_id" ref="akm_payment_multi_deduction.view_account_payment_register_form"/>
+        <field name="inherit_id" ref="elvo_payment_multi_deduction.view_account_payment_register_form"/>
         <field name="arch" type="xml">
             <xpath  expr="//div[@name='amount_company']" position="attributes">
                 <attribute name="invisible">1</attribute>
