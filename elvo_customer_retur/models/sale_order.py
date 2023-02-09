@@ -11,16 +11,12 @@ class SaleOrder(models.Model):
     resi_retur = fields.Char(string='Resi Retur')
     resi_status = fields.Selection([
         ('to_process', 'To Process'),
-        ('sent', 'Sent'),
         ('printed', 'Printed'),
         ('reprinted', 'Reprinted'),
     ], string="Status Resi", default='to_process')
 
     def action_to_process(self):
         self.resi_status = 'to_process'
-
-    def action_to_sent(self):
-        self.resi_status = 'sent'
 
     def action_to_printed(self):
         self.resi_status = 'printed'

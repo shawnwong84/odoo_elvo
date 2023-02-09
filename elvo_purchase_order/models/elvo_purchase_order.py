@@ -23,6 +23,26 @@ class PurchaseOrder(models.Model):
         ('receipt', 'Receipt'),
         ('under', 'Under Receipt'),
     ])
+    is_over_receipt = fields.Boolean(compute='compute_receipt_status', store=True)
+
+    @api.depends('order_line.move_ids.quantity_done', 'order_line.product_qty')
+    def compute_receipt_status(self):
+        for x in self:
+            for line in x.order_line:
+                if line.move_ids:
+                    qty_done = sum(line.move_ids.mapped('quantity_done'))
+                    uom = line.product_qty
+                    max = uom + uom * x.tolerance
+                    if qty_done > max:
+                        x.receipt_status = 'over'
+                    elif qty_done >= line.product_qty and qty_done < max:
+                        x.receipt_status = 'receipt'
+                    elif qty_done < line.product_qty or qty_done == 0:
+                        x.receipt_status = 'under'
+                    else:
+                        x.receipt_status = 'under'
+            x.is_over_receipt = True if x.receipt_status == 'over' else False
+
 
     def button_confirm(self):
         res = super(PurchaseOrder, self).button_confirm()
@@ -72,34 +92,34 @@ class PurchaseOrderLine(models.Model):
                                                         ('name', '=', line.order_id.partner_id.id)]).write(
                 {'price_latest': get_data.price_unit})
 
-class Picking(models.Model):
-    _inherit = 'stock.picking'
+# class Picking(models.Model):
+#     _inherit = 'stock.picking'
 
-    receipt_status = fields.Selection([
-        ('over', 'Over Receipt'),
-        ('receipt', 'Receipt'),
-        ('under', 'Under Receipt'),
-    ], string="Receipt Status", compute="_compute_receipt_status")
-    is_over_receipt = fields.Boolean()
+    # receipt_status = fields.Selection([
+    #     ('over', 'Over Receipt'),
+    #     ('receipt', 'Receipt'),
+    #     ('under', 'Under Receipt'),
+    # ], string="Receipt Status", compute="_compute_receipt_status")
+    # is_over_receipt = fields.Boolean()
 
-    @api.depends('name', 'move_ids_without_package.quantity_done', 'move_ids_without_package.product_uom_qty')
-    def _compute_receipt_status(self):
-        tolerance = self.purchase_id.tolerance
-        for line in self.move_lines:
-            if self.receipt_status:
-                break
-            uom = line.product_uom_qty
-            qty_done = line.quantity_done
-            max = uom + uom * tolerance
-            if qty_done > max:
-                self.receipt_status = 'over'
-            elif qty_done >= line.product_uom_qty and qty_done < max:
-                self.receipt_status = 'receipt'
-            elif qty_done < line.product_uom_qty or qty_done == 0:
-                self.receipt_status = 'under'
-            else:
-                self.receipt_status = 'under'
-        self.receipt_status and self.purchase_id.write({'receipt_status': self.receipt_status})
+    # @api.depends('name', 'move_ids_without_package.quantity_done', 'move_ids_without_package.product_uom_qty')
+    # def _compute_receipt_status(self):
+    #     tolerance = self.purchase_id.tolerance
+    #     for line in self.move_lines:
+    #         if self.receipt_status:
+    #             break
+    #         uom = line.product_uom_qty
+    #         qty_done = line.quantity_done
+    #         max = uom + uom * tolerance
+    #         if qty_done > max:
+    #             self.receipt_status = 'over'
+    #         elif qty_done >= line.product_uom_qty and qty_done < max:
+    #             self.receipt_status = 'receipt'
+    #         elif qty_done < line.product_uom_qty or qty_done == 0:
+    #             self.receipt_status = 'under'
+    #         else:
+    #             self.receipt_status = 'under'
+    #     self.receipt_status and self.purchase_id.write({'receipt_status': self.receipt_status})
 
 
 

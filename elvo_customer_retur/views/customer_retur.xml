@@ -17,7 +17,6 @@
             <tree string="Daftar Resi" editable="top">
                 <header>
                     <button name="action_to_process" type="object" string="Process" icon="fa-check"/>
-                    <button name="action_to_sent" type="object" string="Sent" icon="fa-truck"/>
                     <button name="action_to_printed" type="object" string="Printed" icon="fa-print"/>
                     <button name="action_to_reprinted" string="Reprinted" icon="fa-print" type="object"/>
                 </header>
