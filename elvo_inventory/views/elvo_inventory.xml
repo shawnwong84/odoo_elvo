@@ -20,9 +20,6 @@
                 <field name="resi_kirim"
                        attrs="{'invisible': [('picking_type_code', 'in', ('pick', 'pack', 'ship'))]}"/>
             </xpath>
-            <xpath expr="//button[@name='button_validate']" position="attributes">
-                <attribute name="string">Scan</attribute>
-            </xpath>
         </field>
     </record>
 </odoo>
