@@ -1,7 +1,7 @@
 {
     'name': 'elvo_inventory',
     'version': '1.0',
-    'depends': ['stock'],
+    'depends': ['stock', 'elvo_customer_retur'],
     'description': """
         Elvo Inventory
     """,

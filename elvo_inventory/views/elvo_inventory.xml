@@ -5,11 +5,8 @@
         <field name="inherit_id" ref="stock.view_inventory_form"/>
         <field name="arch" type="xml">
             <xpath expr="//field[@name='exhausted']" position="after">
-                <field name="pic1" required="1" />
+                <field name="pic1" required="1"/>
                 <field name="pic2"/>
-            </xpath>
-            <xpath expr="//field[@name='product_ids']" position="attributes">
-                <attribute name="required">1</attribute>
             </xpath>
         </field>
     </record>
@@ -19,9 +16,12 @@
         <field name="model">stock.picking</field>
         <field name="inherit_id" ref="stock.view_picking_form"/>
         <field name="arch" type="xml">
-            <xpath expr="//button[@name='button_scrap']" position="after">
-                <button name="action_scan_to_done" type="object" class="oe_highlight" string="Scan" states="assigned"
-                        attrs="{'invisible': [('picking_type_code', 'in', ('pick', 'pack', 'ship'))]}"/>
+            <xpath expr="//field[@name='origin']" position="after">
+                <field name="resi_kirim"
+                       attrs="{'invisible': [('picking_type_code', 'in', ('pick', 'pack', 'ship'))]}"/>
+            </xpath>
+            <xpath expr="//button[@name='button_validate']" position="attributes">
+                <attribute name="string">Scan</attribute>
             </xpath>
         </field>
     </record>

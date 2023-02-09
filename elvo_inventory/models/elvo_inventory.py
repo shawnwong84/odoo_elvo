@@ -9,6 +9,8 @@ class Inventory(models.Model):
 class StockPicking(models.Model):
     _inherit = "stock.picking"
 
+    resi_kirim = fields.Char(string="Resi Kirim")
+
     def action_scan_to_done(self):
         self.button_validate()
         self.state = 'done'

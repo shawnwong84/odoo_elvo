@@ -9,6 +9,7 @@
     'data': [
         'views/customer_retur.xml',
         'views/account_move_reversal.xml',
+        'views/sale_order.xml',
     ],
     'installable': True,
     'application': True,
