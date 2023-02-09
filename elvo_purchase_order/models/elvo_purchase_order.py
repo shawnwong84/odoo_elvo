@@ -92,15 +92,15 @@ class PurchaseOrderLine(models.Model):
                                                         ('name', '=', line.order_id.partner_id.id)]).write(
                 {'price_latest': get_data.price_unit})
 
-# class Picking(models.Model):
-#     _inherit = 'stock.picking'
+class Picking(models.Model):
+    _inherit = 'stock.picking'
 
     # receipt_status = fields.Selection([
     #     ('over', 'Over Receipt'),
     #     ('receipt', 'Receipt'),
     #     ('under', 'Under Receipt'),
     # ], string="Receipt Status", compute="_compute_receipt_status")
-    # is_over_receipt = fields.Boolean()
+    is_over_receipt = fields.Boolean()
 
     # @api.depends('name', 'move_ids_without_package.quantity_done', 'move_ids_without_package.product_uom_qty')
     # def _compute_receipt_status(self):
