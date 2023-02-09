@@ -9,6 +9,12 @@ class AccountPaymentRegister(models.TransientModel):
     ], string="Create Payment", default='regular')
     dp_amount = fields.Monetary(string="Down Payment Amount")
 
+    def action_create_payments(self):
+        res = super(AccountPaymentRegister, self).action_create_payments()
+        if self.type_of_payment == 'down_payment':
+            self.env['account.move'].search([('name', '=', self.communication)]).write({'payment_state': 'down_payment'})
+        return res
+
     @api.onchange('dp_amount')
     def onchange_dp_amount(self):
         if self.type_of_payment == 'down_payment':
