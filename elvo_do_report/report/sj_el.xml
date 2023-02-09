@@ -12,30 +12,6 @@
         <t t-call="web.basic_layout">
             <t t-foreach="docs" t-as="o">
                 <div class="page">
-                    <style>
-                        .header {
-                        position: running(header);
-                        }
-                        .footer {
-                        position: running(footer);
-                        }
-                        @page {
-                        @top-center {
-                        content: element(header);
-                        }
-                        @bottom-center {
-                        content: element(footer);
-                        }
-                        }
-                        @page :second {
-                        @top-center {
-                        content: element(header);
-                        }
-                        @bottom-center {
-                        content: element(footer);
-                        }
-                        }
-                    </style>
                     <div class="header">
                         <div class="row">
                             <div class="col-4">

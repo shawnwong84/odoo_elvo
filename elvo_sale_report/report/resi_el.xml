@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <report id="action_report_sj_el"
+            model="sale.order"
+            string="Resi"
+            report_type="qweb-pdf"
+            name="elvo_sale_report.resi_el"
+            file="elvo_sale_report.resi_el"
+            print_report_name="'Resi - %s' % (object.name)"
+    />
+    <template id="resi_el">
+        <t t-call="web.basic_layout">
+            <t t-foreach="docs" t-as="o">
+                <div class="page">
+                    <div class="header">
+                        <h2 style="text-align: center;">
+                            <strong>
+                                <span t-field="o.name"/>
+                            </strong>
+                        </h2>
+                        <div class="row">
+                            <div class="col-8">
+                                <table style="border-collapse: collapse; width: 100%;" border="1">
+                                    <tbody>
+                                        <tr>
+                                            <td style="width: 100%;">
+                                                <strong>Pengirim :&#160;</strong>
+                                                <span t-field="o.company_id.name"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="width: 100%;">&#160;</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-4">
+                                <img t-att-src="'report/barcode/QR/'+o.name"
+                                     style="height:80px;width:80px;margin-left:auto;"
+                                     alt="QR Code"/>
+                            </div>
+                        </div>
+                        <table style="border-collapse: collapse; width: 100%;" border="1">
+                            <tbody>
+                                <tr>
+                                    <td style="width: 100%;">
+                                        <strong>Penerima :&#160;</strong>
+                                        <span t-field="o.partner_id.name"/>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <table style="border-collapse: collapse; width: 100%;" border="1">
+                            <tbody>
+                                <tr>
+                                    <td style="width: 25%;border:1px solid black;">&#160;</td>
+                                    <td style="width: 25%;border:1px solid black;">&#160;</td>
+                                    <td style="width: 25%;border:1px solid black;">&#160;</td>
+                                    <td style="width: 25%;border:1px solid black;">&#160;</td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 25%; text-align: center;border:1px solid black;line-height:17px;padding-left:1%;padding-right:1%;">
+                                        <strong>Total Biaya</strong>
+                                        <br/>
+                                        <strong>
+                                            <span t-field="o.currency_id"/>&#160;
+                                            <span t-field="o.amount_total"
+                                                  t-options='{"widget": "integer", "precision": 2}'/>
+                                        </strong>
+                                        <br/>
+                                        <span style="font-size: 10px;">Sudah Termasuk PPN</span>
+                                    </td>
+                                    <td style="width: 75%;border:1px solid black;" colspan="3">Jumlah :</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <h2 style="text-align: center;">BOP-TEST86</h2>
+                        <span style="margin-left:auto;margin-right:auto;" t-field="o.name"
+                              t-options='{"widget": "barcode","width" : 480, "height" : 70}'/>
+                        <p style="text-align: center;">
+                            <span>
+                                <span t-field="o.name"/>
+                            </span>
+                        </p>
+                        <p style="text-align: center; font-size: 10px;">Syarat dan ketentuan pengiriman dapat dilihat
+                            pada website www.jet.co.id
+                        </p>
+                        <table style="border-collapse: collapse; width: 100%;" border="1">
+                            <tbody>
+                                <tr>
+                                    <td style="width: 100%;border:1px solid black;padding-left:1%;padding-right:1%;">
+                                        <strong>
+                                            <span>TT Order Id:</span>
+                                        </strong>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <p>
+                            <span style="font-size:11px;">Hand over to carrier by:</span>
+                        </p>
+                        <table style="border-collapse: collapse; width: 100%;" border="1">
+                            <tbody>
+                                <tr>
+                                    <td style="width: 48%;">
+                                        <strong>Product Name</strong>
+                                    </td>
+                                    <td style="width: 48%;">
+                                        <strong>SKU[Seller SKU]</strong>
+                                    </td>
+                                    <td style="width: 4%;">
+                                        <strong>QTY</strong>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div style="page-break-after: always;">
+                        <table style="border-collapse: collapse; width: 100%;" border="1">
+                            <tbody>
+                                <t t-set="totqty" t-value="0"/>
+                                <t t-foreach="o.order_line" t-as="li">
+                                    <tr>
+                                        <td style="width: 48%;border:1px solid black;padding-left:1%;padding-right:1%;">
+                                            <span t-field="li.product_id"/>
+                                        </td>
+                                        <td style="width: 48%;border:1px solid black;padding-left:1%;padding-right:1%;">
+                                            <span t-field="li.name"/>
+                                        </td>
+                                        <td style="width: 4%;border:1px solid black;padding-left:1%;padding-right:1%;">
+                                            <span t-field="li.product_uom_qty"/>
+                                            <t t-set="totqty" t-value="totqty+li.product_uom_qty"/>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="footer">
+                        <table style="border-collapse: collapse; width: 100%;" border="1">
+                            <tbody>
+                                <tr>
+                                    <td style="width: 35%;" rowspan="2">
+                                        <table style="border-collapse: collapse; width: 20%;margin-left:auto;"
+                                               border="1">
+                                            <tbody>
+                                                <tr>
+                                                    <td style="width: 15%;border:1px solid black;padding-left:1%;padding-right:1%;">
+                                                        <strong>Total</strong>
+                                                    </td>
+                                                    <td style="width: 5%;border:1px solid black;padding-left:1%;padding-right:1%;">
+                                                        <span t-esc="'%.1zoomi'%(totqty)"/>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                    <td style="width: 15%;" rowspan="2">
+                                        <strong>&#160;</strong>
+                                    </td>
+                                    <td style="width: 50%; font-size: 11px;">Order ID:</td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 50%; font-size: 11px;">Package ID:</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>
