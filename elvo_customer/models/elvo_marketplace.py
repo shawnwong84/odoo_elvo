@@ -1,13 +1,10 @@
 from odoo import fields, models, api, _
-# from odoo.exceptions import UserError
-# import requests
-# import json
-# from datetime import datetime
-# import time
-# import hashlib
-# import calendar
-# import hmac
-# import lazop_sdk as lazop
+from odoo.exceptions import UserError
+import hmac
+import json
+import time
+import requests
+import hashlib
 
 
 class MasterMarketplace(models.Model):
@@ -15,6 +12,21 @@ class MasterMarketplace(models.Model):
     _description = 'Marketplace'
 
     name = fields.Char(string="Marketplace Name", required=True)
+
+    def test_api(self):
+        url = "https://partner.test-stable.shopeemobile.com/api/v2/auth/token/get?partner_id=1023606&sign=sign&timestamp=timestamp"
+
+        payload = json.dumps({
+            "code": "",
+            "main_account_id": "",
+            "shop_id": ""
+        })
+        headers = {
+            'Content-Type': 'application/json'
+        }
+        response = requests.request("POST", url, headers=headers, data=payload, allow_redirects=False)
+
+        print(response.text)
 
     # def test_api(self):
     #     client = lazop.LazopClient('https://auth.lazada.com/rest', '115530', '748b3104-2892-47c9-3d91-1469e1d48874')

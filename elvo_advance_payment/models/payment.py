@@ -7,6 +7,7 @@ class AccountPayment(models.Model):
 	_inherit = "account.payment"
 
 	check_advance_payment = fields.Boolean('Advance Payment', default=False)
+	available_partner_bank_ids = fields.Many2one('res.partner.bank', string='Bank Account', readonly=False, store=True, domain="[('partner_id', '=', partner_id)]")
 
 	@api.depends('journal_id', 'partner_id', 'partner_type', 'is_internal_transfer','check_advance_payment')
 	def _compute_destination_account_id(self):
