@@ -1,13 +1,12 @@
 {
-    'name': 'elvo_customer',
+    'name': 'elvo_marketplace',
     'version': '1.0',
-    'depends': ['elvo_marketplace'],
     'description': """
-        Elvo Customer
+        Elvo Marketplace
     """,
-    'category': 'invoicing',
+    'category': 'sales',
     'data': [
-        'views/master_customer.xml',
+        'views/master_marketplace.xml',
         'security/ir.model.access.csv',
     ],
     'installable': True,

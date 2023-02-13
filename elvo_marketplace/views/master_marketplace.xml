@@ -1,0 +1,26 @@
+<odoo>
+    <record model="ir.ui.view" id="elvo_master_marketplace">
+        <field name="name">elvo.master.marketplace</field>
+        <field name="model">master.marketplace</field>
+        <field name="arch" type="xml">
+            <tree string="Master Marketplace">
+                <field name="name"/>
+                <field name="username"/>
+                <field name="password"/>
+                <field name="email"/>
+                <field name="token"/>
+                <field name="refresh_token"/>
+                <field name="shopee_code"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="elvo_master_marketplace_action">
+        <field name="name">Master Marketplace</field>
+        <field name="res_model">master.marketplace</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="elvo_master_marketplace"/>
+    </record>
+
+    <menuitem id="elvo_master_marketplace_menu" name="Master Marketplace" parent="sale.menu_sale_config" action="elvo_master_marketplace_action"/>
+</odoo>
