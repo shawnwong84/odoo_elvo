@@ -5,13 +5,58 @@
         <field name="arch" type="xml">
             <tree string="Master Marketplace">
                 <field name="name"/>
+                <field name="marketplace"/>
                 <field name="username"/>
-                <field name="password"/>
                 <field name="email"/>
-                <field name="token"/>
-                <field name="refresh_token"/>
-                <field name="shopee_code"/>
+                <field name="password"/>
             </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="elvo_master_marketplace_form">
+        <field name="name">elvo.master.marketplace.form</field>
+        <field name="model">master.marketplace</field>
+        <field name="arch" type="xml">
+            <form string="Master Marketplace">
+                <header>
+                    <button type="object" name="shopee_get_code" string="Get Code" class="oe_highlight"
+                            attrs="{'invisible': [('marketplace', '!=', 'shopee')]}"/>
+                    <button type="object" name="shopee_get_token" string="Get Token" class="oe_highlight"
+                            attrs="{'invisible': [('marketplace', '!=', 'shopee')]}"/>
+                    <button type="object" name="tiktok_get_code" string="Get Token" class="oe_highlight"
+                            attrs="{'invisible': [('marketplace', '!=', 'tiktok')]}"/>
+                    <button type="object" name="get_tiktok_code" string="Get Code" class="oe_highlight"
+                            attrs="{'invisible': [('marketplace', '!=', 'tiktok')]}"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="marketplace"/>
+                            <field name="username"/>
+                        </group>
+                        <group>
+                            <field name="password"/>
+                            <field name="email"/>
+                        </group>
+                        <group id="shopee_account" attrs="{'invisible': [('marketplace', '!=', 'shopee')]}">
+                            <field name="shopee_shop_id"/>
+                            <field name="shopee_partner_id"/>
+                            <field name="shopee_partner_key"/>
+                            <field name="token"/>
+                            <field name="refresh_token"/>
+                            <field name="shopee_code"/>
+                        </group>
+                        <group id="tiktok_account" attrs="{'invisible': [('marketplace', '!=', 'tiktok')]}">
+                            <field name="tiktok_app_key"/>
+                            <field name="tiktok_app_secret"/>
+                            <field name="token"/>
+                            <field name="refresh_token"/>
+                            <field name="tiktok_auth_code"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
         </field>
     </record>
 
@@ -19,8 +64,8 @@
         <field name="name">Master Marketplace</field>
         <field name="res_model">master.marketplace</field>
         <field name="view_mode">tree,form</field>
-        <field name="view_id" ref="elvo_master_marketplace"/>
     </record>
 
-    <menuitem id="elvo_master_marketplace_menu" name="Master Marketplace" parent="sale.menu_sale_config" action="elvo_master_marketplace_action"/>
+    <menuitem id="elvo_master_marketplace_menu" name="Master Marketplace" parent="sale.menu_sale_config"
+              action="elvo_master_marketplace_action"/>
 </odoo>
