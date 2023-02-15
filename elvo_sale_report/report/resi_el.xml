@@ -149,7 +149,7 @@
                                                         <strong>Total</strong>
                                                     </td>
                                                     <td style="width: 5%;border:1px solid black;padding-left:1%;padding-right:1%;">
-                                                        <span t-esc="'%.1zoomi'%(totqty)"/>
+                                                        <span t-esc="'%.1i'%(totqty)"/>
                                                     </td>
                                                 </tr>
                                             </tbody>

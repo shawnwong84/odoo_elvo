@@ -101,25 +101,3 @@ class Picking(models.Model):
         ('under', 'Under Receipt'),
     ], string="Receipt Status")
     is_over_receipt = fields.Boolean()
-
-    # @api.depends('name', 'move_ids_without_package.quantity_done', 'move_ids_without_package.product_uom_qty')
-    # def _compute_receipt_status(self):
-    #     tolerance = self.purchase_id.tolerance
-    #     for line in self.move_lines:
-    #         if self.receipt_status:
-    #             break
-    #         uom = line.product_uom_qty
-    #         qty_done = line.quantity_done
-    #         max = uom + uom * tolerance
-    #         if qty_done > max:
-    #             self.receipt_status = 'over'
-    #         elif qty_done >= line.product_uom_qty and qty_done < max:
-    #             self.receipt_status = 'receipt'
-    #         elif qty_done < line.product_uom_qty or qty_done == 0:
-    #             self.receipt_status = 'under'
-    #         else:
-    #             self.receipt_status = 'under'
-    #     self.receipt_status and self.purchase_id.write({'receipt_status': self.receipt_status})
-
-
-

@@ -48,7 +48,7 @@ class AccountPaymentRegister(models.TransientModel):
 		('apply', 'Apply'),
 	], default='no_apply', )
 	payment_difference_handling = fields.Selection(default='reconcile_multi_deduct')
-	other_journal_id = fields.Many2one('account.account', string='Other Journal', domain="[('user_type_id', '=', 9), ('company_id', '=', company_id)]")
+	#other_journal_id = fields.Many2one('account.account', string='Other Journal', domain="[('user_type_id', '=', 9), ('company_id', '=', company_id)]")
 
 	@api.depends('partner_id','payment_type')
 	def _compute_remain_prepayment(self):

@@ -16,7 +16,8 @@ class MasterMarketplace(models.Model):
 
     def shopee_get_code(self):
         timest = int(time.time())
-        host = "https://partner.test-stable.shopeemobile.com"
+        # host = "https://partner.test-stable.shopeemobile.com"
+        host = 'https://partner.shopeemobile.com'
         path = "/api/v2/shop/auth_partner"
         redirect_url = "https://github.com/"
         partner_id = self.shopee_partner_id
@@ -29,7 +30,8 @@ class MasterMarketplace(models.Model):
         raise UserError(url)
 
     def shopee_get_token(self):
-        url = "https://partner.test-stable.shopeemobile.com/api/v2/auth/token/get"
+        # url = "https://partner.test-stable.shopeemobile.com/api/v2/auth/token/get"
+        url = "https://partner.shopeemobile.com/api/v2/auth/token/get"
         payload = json.dumps({
             "code": self.shopee_code,
             "partner_id": self.shopee_partner_id,
@@ -45,7 +47,8 @@ class MasterMarketplace(models.Model):
         self.refresh_token = response.json()['refresh_token']
 
     def shopee_refresh_token(self):
-        url = "https://partner.test-stable.shopeemobile.com/api/v2/auth/access_token/get"
+        # url = "https://partner.test-stable.shopeemobile.com/api/v2/auth/access_token/get"
+        url = "https://partner.shopeemobile.com/api/v2/auth/access_token/get"
         payload = json.dumps({
             "refresh_token": self.refresh_token,
             "code": self.shopee_code,
