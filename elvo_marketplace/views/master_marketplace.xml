@@ -23,6 +23,8 @@
                             attrs="{'invisible': [('marketplace', '!=', 'shopee')]}"/>
                     <button type="object" name="shopee_get_token" string="Get Token" class="oe_highlight"
                             attrs="{'invisible': [('marketplace', '!=', 'shopee')]}"/>
+                    <button type="object" name="shopee_get_order_list" string="Get Order List" class="oe_highlight"
+                            attrs="{'invisible': [('marketplace', '!=', 'shopee')]}"/>
                     <button type="object" name="tiktok_get_code" string="Get Token" class="oe_highlight"
                             attrs="{'invisible': [('marketplace', '!=', 'tiktok')]}"/>
                     <button type="object" name="get_tiktok_code" string="Get Code" class="oe_highlight"
