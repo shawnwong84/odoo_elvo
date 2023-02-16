@@ -4,10 +4,12 @@
         <field name="model">res.partner</field>
         <field name="inherit_id" ref="base.view_partner_form"/>
         <field name="arch" type="xml">
-            <xpath expr="//notebook/page[2]/group" position="inside">
-                <group name="marketplace" string="Marketplace" style="width: 100%" >
-                    <field name="marketplace_ids" nolabel="1" />
-                </group>
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button class="oe_stat_button" type="object" name="open_history_order" icon="fa-car">
+                    <span class="o_stat_text" modifiers="{}">
+						History Order
+					</span>
+                </button>
             </xpath>
         </field>
     </record>
