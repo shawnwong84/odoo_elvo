@@ -1,6 +1,5 @@
 from odoo import models, fields, api
 
-
 class PurchaseOrder(models.Model):
     _inherit = 'purchase.order'
 
@@ -39,10 +38,7 @@ class PurchaseOrder(models.Model):
                         x.receipt_status = 'receipt'
                     elif qty_done < line.product_qty or qty_done == 0:
                         x.receipt_status = 'under'
-                    else:
-                        x.receipt_status = 'under'
             x.is_over_receipt = True if x.receipt_status == 'over' else False
-
 
     def button_confirm(self):
         res = super(PurchaseOrder, self).button_confirm()

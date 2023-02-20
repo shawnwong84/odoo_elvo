@@ -4,6 +4,8 @@ from odoo import models, fields, api, _
 class AccountMove(models.Model):
     _inherit = 'account.move'
 
+    miscellaneous_expense = fields.Float("Biaya Lain-lain")
+
     def bod_validation_payment(self):
         self.payment_state = "in_payment"
 
